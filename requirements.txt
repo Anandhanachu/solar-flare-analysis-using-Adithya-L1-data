@@ -1,0 +1,22 @@
+# Aditya-L1 Solar Flare Analysis — Requirements
+# Python >= 3.10
+# Install with:  pip install -r requirements.txt
+
+# Astronomy
+astropy>=6.1.7
+
+# Data handling
+numpy>=2.2.6
+pandas>=2.3.3
+
+# Visualization
+matplotlib>=3.10.9
+
+# Signal processing & statistics
+scipy>=1.15.3
+
+# Machine learning
+scikit-learn>=1.7.2
+
+# Interactive dashboard
+streamlit>=1.58.0

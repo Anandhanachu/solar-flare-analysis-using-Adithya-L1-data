@@ -1,1 +1,0 @@
-# solar-flare-analysis-using-Adithya-L1-data

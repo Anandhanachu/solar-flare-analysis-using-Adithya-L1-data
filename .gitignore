@@ -1,0 +1,19 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data files and directories
+HLS/
+SLX/
+
+# Output directories and plots
+eda_output/
+raw_data_plots/
+
+# Logs and text outputs
+*.log
+error_log.txt
+fits_inspection_output.txt
+fits_output.txt
+raw_viewer_log.txt

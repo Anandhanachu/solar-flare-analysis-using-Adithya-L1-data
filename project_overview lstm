@@ -1,0 +1,66 @@
+# Aditya-L1 Solar Flare Forecasting – Project Overview
+
+This document provides a simple, complete report on all the Python files in your workspace and explains how they work together to form the Solar Flare Forecasting system.
+
+---
+
+## 🚀 How to Run the Pipeline
+
+The central entry point for the machine learning pipeline is **`flare_forecast/main.py`**. You execute this file using the Python interpreter inside your virtual environment (`.venv312`).
+
+### 1. To Train the Model
+This will load the data, process it, train the LSTM neural network, evaluate it, and generate SHAP explainability plots.
+```bash
+.venv312\Scripts\python.exe -m flare_forecast.main train
+```
+
+### 2. To Run a Prediction (Operational Forecast)
+This will use the previously trained model and the latest available data to output a live probability forecast and operational risk level.
+```bash
+.venv312\Scripts\python.exe -m flare_forecast.main forecast
+```
+
+---
+
+## 📁 Core Machine Learning Package (`flare_forecast/`)
+
+These files form the core deep learning pipeline. They are designed to be imported as a module and are executed via `main.py`.
+
+| File | Purpose |
+|------|---------|
+| **`main.py`** | The **Command-Line Interface (CLI)**. This is the master script you execute. It routes your commands (`train`, `evaluate`, `forecast`) to the appropriate modules below. |
+| **`config.py`** | The central **Configuration Hub**. Contains all hyperparameters (window size, epochs, learning rate, thresholds) and file paths. Edit this file to change how the model behaves. |
+| **`dataset.py`** | **Data Loader**. Responsible for reading the raw `.fits` (FITS) files from the SoLEXS and HEL1OS instruments, cleaning them, and merging them into a synchronized timeline. |
+| **`feature_engineering.py`** | **Feature Creator**. Extracts mathematical properties from the raw data (like rolling means, gradients, and volatility) to give the neural network better context. |
+| **`preprocessing.py`** | **Data Preparation**. Handles missing values, scales the data (StandardScaler), and slices the timeline into sliding "windows" (sequences) that the LSTM model requires. |
+| **`model.py`** | **Neural Network Architecture**. Defines the architecture of the deep learning model (LSTM + Bahdanau Attention). This is where the mathematical structure of the AI is written. |
+| **`trainer.py`** | **Training Loop**. Contains the logic for actually training the model. It handles Class Weights (to balance rare X-class flares against the Quiet Sun), Early Stopping, and saving the best model checkpoint. |
+| **`evaluate.py`** | **Testing & Metrics**. After training, this file calculates scientific metrics like True Skill Statistic (TSS), Accuracy, F1-Score, and Heidke Skill Score (HSS) to prove the model works. |
+| **`explain.py`** | **Explainability (SHAP)**. Analyzes the trained model to understand *why* it makes certain predictions, determining which features (e.g., SoLEXS gradient) are most important. |
+| **`predict.py`** | **Operational Forecasting**. Contains the `OperationalForecaster` class. It loads the pre-trained model and runs real-time inference to spit out the current Solar Flare probabilities and Risk Level. |
+| **`visualize.py`** | **Plotting**. Contains all the functions that draw graphs (ROC curves, Confusion Matrices, Prediction Timelines) and save them as `.png` files. |
+| **`utils.py`** | **Helper Tools**. Contains generic background tools like file saving/loading, logging setup, and random seed fixing. |
+| **`_tf_check.py`** | **Safety Check**. A simple script that ensures TensorFlow is installed correctly and warns you if you are using an incompatible Python version. |
+
+---
+
+## 📂 Exploratory Data Analysis & Utilities (Root Directory)
+
+These files reside in the main `c:\Users\anand\ISRO,BHA\` folder. They are mostly standalone scripts used for inspecting data, debugging, and initial research before the formal AI pipeline was built.
+
+| File | Purpose |
+|------|---------|
+| **`solar_flare_eda.py`** | A massive, comprehensive script for **Exploratory Data Analysis (EDA)**. It reads the raw solar data and generates exploratory charts to understand the underlying physics. |
+| **`flare_detection.py`** | An independent script built to visualize X-ray data and explicitly draw annotations on the peaks of solar flares based on threshold baseline multipliers. *(Note: This is the file you were just running).* |
+| **`raw_data_viewer.py`** | A utility script that parses the raw FITS data and dumps it into a readable text format so a human can inspect the raw structure and metadata. |
+| **`inspect_fits.py` & `inspect_fits2.py`** | Small debugging scripts used to open individual FITS files and print out their internal Header Data Units (HDUs) and table schemas. |
+| **`check_env.py`** | A diagnostic script that verifies your Python environment, listing installed packages and ensuring your hardware/software stack is ready for machine learning. |
+| **`fix_unicode.py`** | A tiny script likely used to strip bad characters or fix encoding issues in text/CSV files. |
+
+---
+
+## Summary of the Workflow
+
+If you want to look at graphs of raw solar data, you run the scripts in the **root directory** (like `flare_detection.py`).
+
+If you want to train the AI or make predictions, you use the structured pipeline via **`flare_forecast/main.py`**. The AI pipeline pulls data using `dataset.py`, transforms it with `preprocessing.py`, learns using `trainer.py` and `model.py`, and predicts future flares using `predict.py`.

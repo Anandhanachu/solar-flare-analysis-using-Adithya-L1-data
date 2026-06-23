@@ -17,3 +17,8 @@ error_log.txt
 fits_inspection_output.txt
 fits_output.txt
 raw_viewer_log.txt
+
+# Python and models
+.venv312/
+__pycache__/
+flare_forecast/outputs/

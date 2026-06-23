@@ -15,8 +15,17 @@ matplotlib>=3.10.9
 # Signal processing & statistics
 scipy>=1.15.3
 
-# Machine learning
+# Machine learning (core)
 scikit-learn>=1.7.2
+
+# Deep learning (LSTM forecasting)
+tensorflow>=2.16.0
+
+# Class imbalance (SMOTE)
+imbalanced-learn>=0.12.0
+
+# Explainability (optional — graceful fallback if absent)
+shap>=0.45.0
 
 # Interactive dashboard
 streamlit>=1.58.0
